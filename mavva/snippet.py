@@ -9,7 +9,7 @@ import mavva.logging
 import mavva.logic
 
 
-class HeartbeatWatchdogMessageHandler(WatchdogMessageHandler):
+class HeartbeatWatchdogMessageHandler(mavva.logic.WatchdogMessageHandler):
 
     def try_accept_message(self, mavlink_message):
         return mavlink_message.get_type() == "HEARTBEAT"
