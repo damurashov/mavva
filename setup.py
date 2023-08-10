@@ -7,7 +7,7 @@ setup(
   name='mavva',
   packages=['mavva'],
   include_package_data=True,
-  version='0.0.1',
+  version='0.1.0',
   license='MIT',
   description='An extendable MAVLink framework working straight out-of-the-box. I use it, maybe you will too',
   long_description_content_type="text/markdown",
