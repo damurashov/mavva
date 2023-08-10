@@ -95,7 +95,7 @@ class ThreadedMavlinkConnectionReader(threading.Thread):
         return self._mavlink_connection.messages.pop(message_type)
 
 
-class ThreadedMavlinkSender(threading.Thread):
+class ThreadedMavlinkConnectionWriter(threading.Thread):
 
     def __init__(self, mavlink_connection):
         self._senders = dict()
@@ -131,7 +131,7 @@ class ThreadedMavlinkSender(threading.Thread):
             self._lock.release()
 
 
-class PolledSender:
+class PolledSenderDecorator:
     """ Decorator """
 
     def _try_update_ready(self):
@@ -145,7 +145,7 @@ class PolledSender:
         return inner_function
 
 
-class TimedPolledSender(PolledSender):
+class TimedPolledSenderDecorator(PolledSender):
     """ Decorator """
 
     def __init__(self, timeout_seconds):
@@ -166,10 +166,10 @@ class TimedPolledSender(PolledSender):
             return False
 
 
-class MessageWatchdog(threading.Thread):
+class WatchdogMessageHandler(threading.Thread):
     """
     Will call a handler, if there is no MAVLink messages for some amount if
-    time.
+    time. Compatible w/ `ThreadedMavlinkConnectionReader`
     """
 
     def __init__(self, no_connection_timeout_seconds, on_timeout):
@@ -243,7 +243,7 @@ class MessageWatchdog(threading.Thread):
         self.on_mavlink_message(mavlink_message)
 
 
-class HeartbeatWatchdog(MessageWatchdog):
+class HeartbeatWatchdog(WatchdogMessageHandler):
 
     def try_accept_message(self, mavlink_message):
         return mavlink_message.get_type() == "HEARTBEAT"
