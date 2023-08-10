@@ -2,6 +2,7 @@ import mavva
 import mavva.logging
 import threading
 
+
 class WatchdogMessageHandler(threading.Thread):
     """
     Will call a handler, if there is no MAVLink messages for some amount if
