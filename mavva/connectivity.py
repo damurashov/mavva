@@ -1,4 +1,3 @@
-import madsy.log
 import pymavlink.dialects.v20
 import pymavlink.mavutil
 import threading
@@ -9,8 +8,6 @@ import unittest
 _INTERACTIVE = False
 _BAUDRATE = 57600
 _SERIAL = "/dev/ttyUSB0"
-
-log = madsy.log.Log(madsy.log.DEBUG, module="connectivity")
 
 
 def make_serial_mavlink_connection(device=_SERIAL, baud=_BAUDRATE):
@@ -46,13 +43,13 @@ def _parse_arguments():
     parser.add_argument("--serial", "-s", default="/dev/ttyUSB0")
     parser.add_argument("--baudrate", "-b" ,default=115200)
     arguments = parser.parse_args()
-    log.debug(arguments)
+    mavva.logging.debug(arguments)
 
     # apply arguments
     _BAUDRATE = arguments.baudrate
     _INTERACTIVE = arguments.interactive
     _SERIAL = arguments.serial
-    log.debug("_INTERACTIVE", _INTERACTIVE)
+    mavva.logging.debug("_INTERACTIVE", _INTERACTIVE)
 
 
 class ThreadedMavlinkConnectionReader(threading.Thread):
@@ -90,7 +87,7 @@ class ThreadedMavlinkConnectionReader(threading.Thread):
         return handler
 
     def run_message_handling(self):
-        log.info(ThreadedMavlinkConnectionReader.__name__, ":", "Started message handling thread")
+        mavva.logging.info(ThreadedMavlinkConnectionReader.__name__, ":", "Started message handling thread")
 
         while True:
             received_message = self._mavlink_connection.recv_msg()
@@ -166,14 +163,14 @@ class Sender:
 class ConnectivityTest(unittest.TestCase):
     def test_read_all(self):
         if not _INTERACTIVE:
-            log.info('skipping interactive test')
+            mavva.logging.info('skipping interactive test')
 
             return
 
         def handler(message):
-            log.debug(message)
+            mavva.logging.debug(message)
 
-        log.info("Type anything to stop")
+        mavva.logging.info("Type anything to stop")
 
         # Create connection
         mavlink_connection = make_serial_mavlink_connection(_SERIAL, _BAUDRATE)
