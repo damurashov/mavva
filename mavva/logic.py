@@ -76,12 +76,6 @@ class WatchdogMessageHandler(threading.Thread):
         self.on_mavlink_message(mavlink_message, mavlink_connection)
 
 
-class HeartbeatWatchdogMessageHandler(WatchdogMessageHandler):
-
-    def try_accept_message(self, mavlink_message):
-        return mavlink_message.get_type() == "HEARTBEAT"
-
-
 class PolledSenderDecorator:
     """ Decorator """
 
