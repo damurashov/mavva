@@ -16,10 +16,17 @@ class HeartbeatWatchdogMessageHandler(WatchdogMessageHandler):
 
 
 class LoggingMessageHandler(mavva.connectivity.MessageHandler):
-    def __init__(self, message_types):
+    def __init__(self, message_types=None):
         self._message_types = message_types
 
+    def _is_mavlink_message_accepted(self, mavlink_message):
+        if self._message_types is None:
+            return True
+        else:
+            return message.get_type() in self._message_types
+
     def __call__(self, mavlink_message, mavlink_connection):
-        if mavlink_message.get_type() in self._message_types:
+
+        if self._is_mavlink_message_accepted(mavlink_message):
             mavva.logging.info(f"Got message: {mavlink_message}")
 
