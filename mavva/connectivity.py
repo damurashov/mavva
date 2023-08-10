@@ -28,7 +28,7 @@ def make_udp_mavlink_connection_as_server(ip="localhost", port=8001):
 
 def make_udp_mavlink_connection_as_client(ip="192.168.4.1", port=8001):
     """
-    Connectes to a specified remote port
+    Connects to a specified remote port
     """
     connection = pymavlink.mavutil.mavlink_connection(f"udpout:{ip}:{port}")
 
