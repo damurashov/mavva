@@ -95,7 +95,7 @@ class ThreadedMavlinkConnectionReader(threading.Thread):
 
             if received_message is not None:
                 for message_handler in self._message_handlers.values():
-                    message_handler(received_message, mavlink_connection)
+                    message_handler(received_message, self._mavlink_connection)
 
             self._lock.release()
 
