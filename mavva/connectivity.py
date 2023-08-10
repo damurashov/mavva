@@ -93,7 +93,7 @@ class ThreadedMavlinkConnectionReader(threading.Thread):
         return handler
 
     def run_message_handling(self):
-        mavva.logging.info(ThreadedMavlinkConnectionReader.__name__, ":", "Started message handling thread")
+        mavva.logging.info("Started message handling thread")
 
         while True:
             received_message = self._mavlink_connection.recv_msg()
