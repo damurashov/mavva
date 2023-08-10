@@ -1,0 +1,7 @@
+/venv
+*tags
+/*egg-info
+/build
+/.eggs
+/*__pycache__
+mavva/__pycache__
