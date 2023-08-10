@@ -1,3 +1,6 @@
+import mavva
+import mavva.logging
+import threading
 
 class WatchdogMessageHandler(threading.Thread):
     """
@@ -11,7 +14,6 @@ class WatchdogMessageHandler(threading.Thread):
          callback invocation
         `on_timeout` - a callback having signature `function()`
         """
-        import madsy.log
 
         self._timeout = no_connection_timeout_seconds
         self._update_timeout()
@@ -24,7 +26,7 @@ class WatchdogMessageHandler(threading.Thread):
         import pathlib
         module_name = pathlib.Path(__file__).stem + '.' \
             + self.__class__.__name__
-        self._log = madsy.log.Log(level=madsy.log.INFO,
+        mavva.logging = madsy.log.Log(level=madsy.log.INFO,
             module=module_name)
 
     def _update_timeout(self):
@@ -51,7 +53,7 @@ class WatchdogMessageHandler(threading.Thread):
             if self._is_timed_out() and not self._is_notified():
                 self._notify_on_timeout()
                 self._set_notified(True)
-                self._log.warning("Connection lost")
+                mavva.logging.warning("Connection lost")
 
             time.sleep(self._timeout)
 
@@ -69,7 +71,7 @@ class WatchdogMessageHandler(threading.Thread):
             self._update_timeout()
 
             if self._is_notified():
-                self._log.info("Connection restored")
+                mavva.logging.info("Connection restored")
                 self._set_notified(False)
 
     def __call__(self, mavlink_message, mavlink_connection):
