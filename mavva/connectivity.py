@@ -95,6 +95,15 @@ class ThreadedMavlinkConnectionReader(threading.Thread):
         return self._mavlink_connection.messages.pop(message_type)
 
 
+class MessageHandler:
+    """
+    Defines api for entities stored in ThreadedMavlinkConnectionReader
+    """
+
+    def __call__(self, received_message, mavlink_connection):
+        pass
+
+
 class ThreadedMavlinkConnectionWriter(threading.Thread):
 
     def __init__(self, mavlink_connection):
@@ -129,6 +138,15 @@ class ThreadedMavlinkConnectionWriter(threading.Thread):
                 sender(self._mavlink_connection)
 
             self._lock.release()
+
+
+class Sender:
+    """
+    Defines API for entities stored in ThreadedMavlinkConnectionWriter
+    """
+
+    def __call__(self, mavlink_connection):
+        pass
 
 
 class PolledSenderDecorator:
@@ -228,7 +246,7 @@ class WatchdogMessageHandler(threading.Thread):
         """
         return True
 
-    def on_mavlink_message(self, mavlink_message):
+    def on_mavlink_message(self, mavlink_message, mavlink_connection):
         """
         On a new MAVLink message, it updates the last timestamp
         """
@@ -239,8 +257,8 @@ class WatchdogMessageHandler(threading.Thread):
                 self._log.info("Connection restored")
                 self._set_notified(False)
 
-    def __call__(self, mavlink_message):
-        self.on_mavlink_message(mavlink_message)
+    def __call__(self, mavlink_message, mavlink_connection):
+        self.on_mavlink_message(mavlink_message, mavlink_connection)
 
 
 class HeartbeatWatchdogMessageHandler(WatchdogMessageHandler):
