@@ -4,8 +4,8 @@ with open("README.md", 'r') as description_file:
   long_description = description_file.read()
 
 setup(
-  name='mavvy',
-  packages=['mavvy'],
+  name='mavva',
+  packages=['mavva'],
   include_package_data=True,
   version='0.0.1',
   license='MIT',
