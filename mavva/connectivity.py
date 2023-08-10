@@ -19,6 +19,20 @@ def make_serial_mavlink_connection(device=_SERIAL, baud=_BAUDRATE):
     return connection
 
 
+def make_udp_mavlink_connection_as_server(ip="localhost", port=8001):
+    """
+    Listens for incoming MAVLink packages on specified port
+    """
+    connection = pymavlink.mavutil.mavlink_connection(f"udpin:{ip}:{port}")
+
+
+def make_udp_mavlink_connection_as_client(ip="192.168.4.1", port=8001):
+    """
+    Connectes to a specified remote port
+    """
+    connection = pymavlink.mavutil.mavlink_connection(f"udpout:{ip}:{port}")
+
+
 def _parse_arguments():
     import argparse
 
