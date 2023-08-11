@@ -23,7 +23,7 @@ class LoggingMessageHandler(mavva.connectivity.MessageHandler):
         if self._message_types is None:
             return True
         else:
-            return message.get_type() in self._message_types
+            return mavlink_message.get_type() in self._message_types
 
     def __call__(self, mavlink_message, mavlink_connection):
 
