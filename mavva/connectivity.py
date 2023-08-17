@@ -12,26 +12,26 @@ _BAUDRATE = 57600
 _SERIAL = "/dev/ttyUSB0"
 
 
-def make_serial_mavlink_connection(device=_SERIAL, baud=_BAUDRATE):
+def make_serial_mavlink_connection(device=_SERIAL, baud=_BAUDRATE, **kwargs):
     connection = pymavlink.mavutil.mavlink_connection(device=device, baud=baud)
 
     return connection
 
 
-def make_udp_mavlink_connection_as_server(ip="localhost", port=8001):
+def make_udp_mavlink_connection_as_server(ip="localhost", port=8001, **kwargs):
     """
     Listens for incoming MAVLink packages on specified port
     """
-    connection = pymavlink.mavutil.mavlink_connection(f"udpin:{ip}:{port}")
+    connection = pymavlink.mavutil.mavlink_connection(f"udpin:{ip}:{port}", **kwargs)
 
     return connection
 
 
-def make_udp_mavlink_connection_as_client(ip="192.168.4.1", port=8001):
+def make_udp_mavlink_connection_as_client(ip="192.168.4.1", port=8001, **kwargs):
     """
     Connects to a specified remote port
     """
-    connection = pymavlink.mavutil.mavlink_connection(f"udpout:{ip}:{port}")
+    connection = pymavlink.mavutil.mavlink_connection(f"udpout:{ip}:{port}", **kwargs)
 
     return connection
 
