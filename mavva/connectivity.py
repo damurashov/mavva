@@ -84,6 +84,7 @@ class ThreadedMavlinkConnectionReader(threading.Thread):
         self._lock.acquire()
         self._message_handlers[hash(key)] = message_handler_callable
         self._lock.release()
+        mavva.logging.debug("Added message handler")
 
     def remove_message_handler(key):
         self._lock.acquire()
